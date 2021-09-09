@@ -1,12 +1,17 @@
 auth.onAuthStateChanged((user) => {
   if (user) {
-    console.log("user logged in: ", user);
+    // get data
+    db.collection("guides")
+      .get()
+      .then((snapshoot) => {
+        setupGuides(snapshoot.docs);
+      });
   } else {
-    console.log("user logged out");
+    setupGuides([]);
   }
 });
 
-// signup
+// signup 
 const signupForm = document.querySelector("#signup-form");
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();

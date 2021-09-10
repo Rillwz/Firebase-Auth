@@ -5,13 +5,25 @@ auth.onAuthStateChanged((user) => {
       .get()
       .then((snapshoot) => {
         setupGuides(snapshoot.docs);
+        setupUI(user);
       });
   } else {
+    setupUI();
     setupGuides([]);
   }
 });
 
-// signup 
+// create new guide
+const createForm = document.querySelector("#create-form");
+createForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  db.collection("guides").add({
+    title: createForm["title"].value,
+  });
+});
+
+// signup
 const signupForm = document.querySelector("#signup-form");
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
